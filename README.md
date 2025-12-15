@@ -104,6 +104,5 @@ flowchart LR
   D -->|/measurements/device/sensor_B| Q
   Q -->|/qc/result| S[stats]
   Q -->|/qc/result| V[viz]
-  S -->|/qc/stats| OUT[(System output)]
   V -->|/viz/workpieces| R[RViz2]
-
+  S -->|/qc/stats| OUT[(System output)]
