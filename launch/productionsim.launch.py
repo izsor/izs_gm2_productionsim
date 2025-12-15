@@ -59,6 +59,7 @@ def generate_launch_description():
         name='stats',
         output='screen',
     )
+
     viz = Node(package='izs_gm2_productionsim', 
     executable='viz', 
     name='viz', 
@@ -68,5 +69,5 @@ def generate_launch_description():
 
     return LaunchDescription([
         rate_sec_arg, defect_prob_arg, noise_arg, diff_threshold_arg, log_pairs_arg,
-        line, device, quality, stats
+        line, device, quality, stats, viz
     ])
