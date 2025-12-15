@@ -91,9 +91,43 @@ ros2 pkg executables izs_gm2_productionsim
 - `/qc/reset_stats` — `std_srvs/Trigger` (reset counters)
 
 ### Parameters
-- `line`: `rate_sec` (float), `defect_prob` (float)
-- `device`: `noise` (float), `base_A_good`, `base_B_good`, `base_A_bad`, `base_B_bad`
-- `quality`: `diff_threshold` (float), `log_pairs` (bool), `drop_after_sec` (float)
+
+#### `line`
+- **`rate_sec` (float)**  
+  How often a new workpiece is generated, in seconds.  
+  *Example:* `rate_sec=1.0` → one workpiece every 1 second; `rate_sec=0.5` → two per second.
+
+- **`defect_prob` (float)**  
+  Probability that a generated workpiece is defective (`BAD`). Range: `0.0 … 1.0`.  
+  *Example:* `defect_prob=0.25` → ~25% of workpieces are marked as defective in the “ground truth”.
+
+#### `device`
+- **`noise` (float)**  
+  Measurement noise added to sensor values. Higher value → noisier measurements → harder QC decision.  
+  *Effect:* increasing `noise` increases overlap between GOOD/BAD measurements, so more misclassifications can happen.
+
+- **`base_A_good`, `base_B_good` (float)**  
+  Baseline (ideal) sensor readings for a **GOOD** workpiece for sensors **A** and **B** (before noise).
+
+- **`base_A_bad`, `base_B_bad` (float)**  
+  Baseline (ideal) sensor readings for a **BAD** workpiece for sensors **A** and **B** (before noise).
+
+> Intuition: the baselines define the expected “signature” of GOOD vs BAD parts. Since the QC step uses the difference between B and A, the separation between these baselines strongly affects the decision quality.
+
+#### `quality`
+- **`diff_threshold` (float)**  
+  Decision threshold used after pairing sensor A and B for the same `WPNo`.  
+  The node computes: `diff = sensor_B - sensor_A` and compares it to the threshold to decide GOOD/BAD (or OK/NOK).  
+  *Lower threshold* → stricter (more BAD/NOK). *Higher threshold* → more permissive (more GOOD/OK).
+
+- **`log_pairs` (bool)**  
+  If `true`, prints extra logs when it successfully pairs A/B measurements for a workpiece (useful for debugging).  
+  If `false`, runs quieter.
+
+- **`drop_after_sec` (float)**  
+  Timeout for incomplete pairs. If only sensor A or only sensor B arrives for a given `WPNo`, the node keeps it in a buffer temporarily.  
+  If the matching measurement does not arrive within `drop_after_sec`, the partial record is dropped to prevent memory growth and stale decisions.  
+  *Example:* `drop_after_sec=2.0` → drop orphaned sensor readings older than 2 seconds.
 
 ### Examples
 - Run a single node manually (after sourcing):
