@@ -65,7 +65,7 @@ def generate_launch_description():
     name='viz', 
     output='screen', 
     parameters=[{'frame_id': 'map'}]
-    ),
+    )
 
     return LaunchDescription([
         rate_sec_arg, defect_prob_arg, noise_arg, diff_threshold_arg, log_pairs_arg,
