@@ -65,23 +65,27 @@ README.md
 ```bash
 cd ~/ros2_ws/src
 git clone https://github.com/izsor/izs_gm2_productionsim.git
-
+```
 ### 2) Függőségek telepítése (ajánlott)
+```bash
 cd ~/ros2_ws
 rosdep update
 rosdep install --from-paths src --ignore-src -r -y
-
+```
 ### 3) Build
+```bash
 cd ~/ros2_ws
 colcon build --packages-select izs_gm2_productionsim --symlink-install
 source install/setup.bash
-
+```
 ### 4) Indítás
+```bash
 ros2 launch izs_gm2_productionsim productionsim.launch.py
+```
 
-##Node-ok / executable-ok
+## Node-ok / executable-ok
 
-A csomag executable nevei:
+### A csomag executable nevei:
 
 line → izs_gm2_productionsim.line_node:main
 device → izs_gm2_productionsim.measure_node:main
@@ -90,9 +94,10 @@ stats → izs_gm2_productionsim.stats_node:main
 viz → izs_gm2_productionsim.viz_node:main
 
 ### Ellenőrzés: 
+```bash
 source ~/ros2_ws/install/setup.bash
 ros2 pkg executables izs_gm2_productionsim
-
+```
 flowchart LR
   L[line] -->|/line/workpiece| D[device]
   D -->|/measurements/device/sensor_A| Q[quality]
