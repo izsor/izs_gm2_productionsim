@@ -97,7 +97,7 @@ viz → izs_gm2_productionsim.viz_node:main
 ```bash
 source ~/ros2_ws/install/setup.bash
 ros2 pkg executables izs_gm2_productionsim
-```
+``` 
 flowchart LR
   L[line] -->|/line/workpiece| D[device]
   D -->|/measurements/device/sensor_A| Q[quality]
