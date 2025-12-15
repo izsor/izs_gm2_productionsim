@@ -64,7 +64,7 @@ def generate_launch_description():
     executable='viz', 
     name='viz', 
     output='screen', 
-    parameters=[{'frame_id': 'map'}]
+    parameters=[{'frame_id': 'map'}],
     )
 
     return LaunchDescription([
