@@ -88,9 +88,13 @@ ros2 launch izs_gm2_productionsim productionsim.launch.py
 ### A csomag executable nevei:
 
 line → izs_gm2_productionsim.line_node:main
+
 device → izs_gm2_productionsim.measure_node:main
+
 quality → izs_gm2_productionsim.quality_node:main
+
 stats → izs_gm2_productionsim.stats_node:main
+
 viz → izs_gm2_productionsim.viz_node:main
 
 ### Ellenőrzés: 
@@ -99,10 +103,61 @@ source ~/ros2_ws/install/setup.bash
 ros2 pkg executables izs_gm2_productionsim
 ``` 
 flowchart LR
-  L[line] -->|/line/workpiece| D[device]
-  D -->|/measurements/device/sensor_A| Q[quality]
-  D -->|/measurements/device/sensor_B| Q
-  Q -->|/qc/result| S[stats]
-  Q -->|/qc/result| V[viz]
-  V -->|/viz/workpieces| R[RViz2]
-  S -->|/qc/stats| OUT[(System output)]
+  %% =========================
+  %% NODES
+  %% =========================
+  subgraph N[Nodes]
+    L[line]
+    D[device]
+    Q[quality]
+    S[stats]
+    V[viz]
+    RZ[RViz2]
+  end
+
+  %% =========================
+  %% TOPICS
+  %% =========================
+  subgraph T[Topics]
+    TW[( /line/workpiece )]
+    TA[( /measurements/device/sensor_A )]
+    TB[( /measurements/device/sensor_B )]
+    TR[( /qc/result )]
+    TS[( /qc/stats )]
+    TV[( /viz/workpieces )]
+  end
+
+  %% =========================
+  %% SERVICES
+  %% =========================
+  subgraph SV[Services]
+    SR[( /qc/reset_stats )]
+  end
+
+  %% =========================
+  %% PUBLISH / SUBSCRIBE LINKS
+  %% =========================
+
+  %% line -> workpiece
+  L -- "publish: std_msgs/String (JSON)\nWPNo + true_quality + timestamp" --> TW
+
+  %% device subscribes to workpiece, publishes measurements
+  TW -- "subscribe\nstd_msgs/String (JSON)" --> D
+  D -- "publish: std_msgs/String (JSON)\nsensor_A value + WPNo" --> TA
+  D -- "publish: std_msgs/String (JSON)\nsensor_B value + WPNo" --> TB
+
+  %% quality subscribes to both sensors, publishes qc result
+  TA -- "subscribe\nstd_msgs/String (JSON)" --> Q
+  TB -- "subscribe\nstd_msgs/String (JSON)" --> Q
+  Q -- "publish: std_msgs/String (JSON)\ndecision=OK/NOK, diff, threshold" --> TR
+
+  %% stats subscribes qc result, publishes aggregated stats + provides reset service
+  TR -- "subscribe\nstd_msgs/String (JSON)" --> S
+  S -- "publish: std_msgs/String (JSON)\ncounts + ratios (+ optional accuracy)" --> TS
+  SR -. "service: std_srvs/Trigger\nreset counters" .-> S
+
+  %% viz subscribes workpiece + qc result, publishes markers
+  TW -- "subscribe\nstd_msgs/String (JSON)" --> V
+  TR -- "subscribe\nstd_msgs/String (JSON)" --> V
+  V -- "publish: visualization_msgs/MarkerArray\ncolored workpieces" --> TV
+  TV -- "display\nMarkerArray" --> RZ
