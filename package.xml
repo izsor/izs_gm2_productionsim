@@ -14,6 +14,8 @@
   <exec_depend>std_srvs</exec_depend>
   <exec_depend>launch</exec_depend>
   <exec_depend>launch_ros</exec_depend>
+  <exec_depend>visualization_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
 
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_pep257</test_depend>
@@ -23,4 +25,10 @@
   <export>
     <build_type>ament_python</build_type>
   </export>
+  <description>
+    A ROS2-based manufacturing station simulation where virtual devices cooperate in a quality control workflow.
+    The line generates new workpieces, the measurement unit publishes data, and the inspection module evaluates results,
+    returning OK/NOK status and statistics to the system.
+  </description>
+
 </package>

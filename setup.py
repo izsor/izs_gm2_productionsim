@@ -21,11 +21,13 @@ setup(
     license='GNU General Public License v3.0',
     tests_require=['pytest'],
     entry_points={
-        'console_scripts': [
-            'line = izs_gm2_productionsim.line_node:main',
-            'device = izs_gm2_productionsim.measure_node:main',
-            'quality = izs_gm2_productionsim.quality_node:main',
-            'stats = izs_gm2_productionsim.stats_node:main',
-        ],
-    },
+    'console_scripts': [
+        'line = izs_gm2_productionsim.line_node:main',
+        'measurement = izs_gm2_productionsim.measure_node:main',
+        'inspection = izs_gm2_productionsim.quality_node:main',
+        'stats = izs_gm2_productionsim.stats_node:main',
+        'viz = izs_gm2_productionsim.viz_node:main',
+    ],
+},
+
 )
