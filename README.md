@@ -79,7 +79,7 @@ To list installed executables after sourcing the workspace:
 ```bash
 ros2 pkg executables izs_gm2_productionsim
 ```
-
+## Interfaces
 ### Topics
 - `/line/workpiece` — `std_msgs/String` (JSON: `WPNo`, `true_quality`, `Timestamp`)
 - `/measurements/device/sensor_A` — `std_msgs/String` (JSON with `sensor_A` and `WPNo`)
