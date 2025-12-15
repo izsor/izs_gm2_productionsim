@@ -1,4 +1,6 @@
 # izs_gm2_productionsim
+![ROS 2](https://img.shields.io/badge/ROS%202-Humble-blue)
+![License](https://img.shields.io/badge/License-GPLv3-green)
 
 An example ROS 2 package implementing a small manufacturing-line simulation and a simple quality-control pipeline.
 
@@ -30,7 +32,7 @@ This repository contains the nodes and a launch file to run the simulation end-t
 
 ## Requirements
 
-- ROS 2 (tested with **Foxy**)
+- ROS 2 (humble)
 - Python 3.8+ (the system used Python 3.10)
 - ROS 2 packages: `rclpy`, `launch`, `launch_ros`, `std_msgs`, `std_srvs`
 - Optional visualization: `visualization_msgs` (and RViz2)
