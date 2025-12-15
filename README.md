@@ -20,6 +20,23 @@ This repository contains the nodes and a launch file to run the simulation end-t
 
 ---
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Requirements](#requirements)
+- [Quick start](#quick-start)
+- [Interfaces](#interfaces)
+  - [Topics](#topics)
+  - [Services](#services)
+  - [Parameters](#parameters)
+- [Examples](#examples)
+- [Troubleshooting](#troubleshooting)
+- [Mermaid diagram (visual topology)](#mermaid-diagram-visual-topology)
+- [License](#license)
+
+---
+
 ## Features
 
 - Workpiece generation with configurable rate and defect probability
@@ -32,7 +49,7 @@ This repository contains the nodes and a launch file to run the simulation end-t
 
 ## Requirements
 
-- ROS 2 (humble)
+- ROS 2 (Humble)
 - Python 3.8+ (the system used Python 3.10)
 - ROS 2 packages: `rclpy`, `launch`, `launch_ros`, `std_msgs`, `std_srvs`
 - Optional visualization: `visualization_msgs` (and RViz2)
@@ -81,6 +98,7 @@ To list installed executables after sourcing the workspace:
 ```bash
 ros2 pkg executables izs_gm2_productionsim
 ```
+
 ## Interfaces
 ### Topics
 - `/line/workpiece` — `std_msgs/String` (JSON: `WPNo`, `true_quality`, `Timestamp`)
@@ -145,10 +163,9 @@ ros2 topic echo /line/workpiece
 ros2 topic echo /qc/result
 ```
 
-###Troubleshooting
+### Troubleshooting
 - If the launch fails with a syntax error, check that `launch/productionsim.launch.py` is a valid Python launch file and not a leftover text file.
 - If console scripts are missing, ensure `setup.py` contains the `entry_points` and rebuild + source the workspace.
-
 
 
 Mermaid diagram (visual topology)
